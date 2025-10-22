@@ -44,7 +44,7 @@ mongoose.connect(MONGODB_URI).then(() => {
 });
 
 // Serve frontend static files
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Catch-all route to serve index.html for client-side routing
 app.get('*', (req, res) => {
@@ -52,7 +52,7 @@ app.get('*', (req, res) => {
     // If the request is for an API route, return 404
     return res.status(404).json({ message: 'API route not found' });
   }
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
