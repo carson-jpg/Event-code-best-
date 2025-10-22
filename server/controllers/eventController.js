@@ -73,11 +73,18 @@ const updateEvent = async (req, res) => {
 
     const imagePath = req.file ? `/uploads/${req.file.filename}` : event.image;
 
+    const oldCapacity = event.capacity;
     Object.assign(event, req.body);
     if (req.file) {
       event.image = imagePath;
     }
     event.updatedAt = new Date();
+
+    // Handle availableTickets when capacity changes
+    if (req.body.capacity !== undefined && req.body.capacity !== oldCapacity) {
+      const soldTickets = oldCapacity - event.availableTickets;
+      event.availableTickets = Math.max(0, req.body.capacity - soldTickets);
+    }
 
     await event.save();
     res.json(event);
