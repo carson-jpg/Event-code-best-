@@ -21,15 +21,15 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Create uploads directory if it doesn't exist
-if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads');
+if (!fs.existsSync(path.join(__dirname, '../uploads'))) {
+  fs.mkdirSync(path.join(__dirname, '../uploads'), { recursive: true });
 }
 
 // Middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
