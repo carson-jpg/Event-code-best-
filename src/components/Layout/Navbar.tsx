@@ -14,7 +14,8 @@ const Navbar: React.FC = () => {
     { name: 'Events', href: '/', icon: Calendar },
     ...(isAuthenticated ? [
       { name: 'My Tickets', href: '/tickets', icon: User },
-      ...(user?.role === 'organizer' ? [{ name: 'Dashboard', href: '/dashboard', icon: User }] : [])
+      ...(user?.role === 'organizer' ? [{ name: 'Dashboard', href: '/dashboard', icon: User }] : []),
+      ...(user?.role === 'admin' ? [{ name: 'Admin Dashboard', href: '/admin-dashboard', icon: User }] : [])
     ] : [])
   ];
 

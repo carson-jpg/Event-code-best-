@@ -27,11 +27,28 @@ class EventService {
     return response.json();
   }
 
-  async createEvent(event: Omit<Event, '_id' | 'organizer' | 'createdAt' | 'updatedAt' | 'availableTickets'>): Promise<Event> {
+  async createEvent(event: Omit<Event, '_id' | 'organizer' | 'createdAt' | 'updatedAt' | 'availableTickets'>, imageFile?: File): Promise<Event> {
+    const formData = new FormData();
+
+    // Add event data to FormData
+    Object.entries(event).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value.toString());
+      }
+    });
+
+    // Add image file if provided
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    const token = localStorage.getItem('token');
     const response = await fetch(`${this.baseURL}/events`, {
       method: 'POST',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify(event),
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
     });
 
     if (!response.ok) {
@@ -42,11 +59,28 @@ class EventService {
     return response.json();
   }
 
-  async updateEvent(id: string, event: Partial<Event>): Promise<Event> {
+  async updateEvent(id: string, event: Partial<Event>, imageFile?: File): Promise<Event> {
+    const formData = new FormData();
+
+    // Add event data to FormData
+    Object.entries(event).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value.toString());
+      }
+    });
+
+    // Add image file if provided
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    const token = localStorage.getItem('token');
     const response = await fetch(`${this.baseURL}/events/${id}`, {
       method: 'PUT',
-      headers: this.getAuthHeaders(),
-      body: JSON.stringify(event),
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
     });
 
     if (!response.ok) {
