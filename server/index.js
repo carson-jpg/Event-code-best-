@@ -43,17 +43,7 @@ mongoose.connect(MONGODB_URI).then(() => {
   console.error('MongoDB connection error:', err);
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Catch-all route to serve index.html for client-side routing
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    // If the request is for an API route, return 404
-    return res.status(404).json({ message: 'API route not found' });
-  }
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+// Frontend is hosted separately on Vercel, so no need to serve static files here
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

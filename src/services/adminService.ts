@@ -1,7 +1,7 @@
 import { User, Order } from '../types';
 
 class AdminService {
-  private baseURL = 'http://localhost:3001/api';
+  private baseURL = import.meta.env.VITE_API_BASE_URL;
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token');

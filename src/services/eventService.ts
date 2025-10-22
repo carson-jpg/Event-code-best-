@@ -1,7 +1,7 @@
 import { Event, Ticket, Order } from '../types';
 
 class EventService {
-  private baseURL = 'http://localhost:3001/api';
+  private baseURL = import.meta.env.VITE_API_BASE_URL;
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token');
